@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Onboarding Calculator | Setup Time Estimator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text--dark--50: #19191e;
+            --brand--black: #242326;
+            --text--dark--40: #4c4d57;
+            --text--dark--30: #777989;
+            --true-black: black;
+            --transparent: #fff0;
+            --card-light-grey: #f8f8f8;
+            --text--white--30: #979797;
+            --text--light--40: #b2b2b2;
+            --accent--blue--300: #527dff;
+            --accent-blue--200: #7a9cff;
+            --text--dark--20: #a8aabb;
+            --action-primary-blue: #2147f4;
+            --white: white;
+            --light-grey: #ccc;
+            --text-dark-10: #dfe0ec;
+            --ui--underline--light-grey: #e5e5e5;
+            --success-green: #bde4b9;
+            --brand--yellow: #f1c238;
+            --brand-accent--mandarin-light: #f6be9d;
+            --accent-blue--100: #a3baff;
+            --brand-accent--dusty-red-light: #f9b4bc;
+            --brand--secondary--lightgreen: #beffd8;
+            --accent-blue--50: #b8caff;
+            --white-smoke: #fde8eb;
+            --nav-opacity: #ffffff0d;
+            --brand-accent--cream: #f5ede5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333;
+            background-color: #fff;
+            min-height: 100%;
+            margin: 0;
+        }
+
+        .logo-container {
+            padding: 24px 24px 0 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            width: 180px;
+            height: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px 40px 24px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .page-label-line {
+            width: 32px;
+            height: 2px;
+            background: var(--accent-blue--200);
+        }
+
+        .label-text {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-blue--200);
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text--dark--50);
+            margin-bottom: 16px;
+            line-height: 1.3;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text--dark--30);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .calculator-card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 32px;
+            border: 1px solid var(--ui--underline--light-grey);
+        }
+
+        .input-section {
+            margin-bottom: 32px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text--dark--50);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid var(--light-grey);
+            border-radius: 4px;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            transition: all 0.2s ease;
+            background: var(--white);
+            color: var(--text--dark--50);
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--action-primary-blue);
+            box-shadow: 0 0 0 2px rgba(33, 71, 244, 0.1);
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid var(--light-grey);
+            border-radius: 4px;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            transition: all 0.2s ease;
+            background: var(--white);
+            color: var(--text--dark--50);
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: var(--action-primary-blue);
+            box-shadow: 0 0 0 2px rgba(33, 71, 244, 0.1);
+        }
+
+        .input-help-text {
+            font-size: 13px;
+            color: var(--text--dark--30);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .calculate-btn {
+            padding: 12px 32px;
+            background: var(--action-primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        }
+
+        .calculate-btn:hover {
+            background: var(--accent--blue--300);
+        }
+
+        .results-section {
+            display: none;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--ui--underline--light-grey);
+        }
+
+        .results-section.visible {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, var(--action-primary-blue) 0%, var(--accent--blue--300) 100%);
+            padding: 24px;
+            border-radius: 4px;
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-card.secondary {
+            background: linear-gradient(135deg, var(--brand--secondary--lightgreen) 0%, var(--success-green) 100%);
+            color: var(--text--dark--50);
+        }
+
+        .result-card.tertiary {
+            background: linear-gradient(135deg, var(--brand--yellow) 0%, var(--brand-accent--mandarin-light) 100%);
+            color: var(--text--dark--50);
+        }
+
+        .result-card.quaternary {
+            background: linear-gradient(135deg, var(--accent-blue--200) 0%, var(--accent-blue--100) 100%);
+            color: var(--text--dark--50);
+        }
+
+        .result-label {
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0.85;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .result-description {
+            font-size: 13px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .info-section {
+            background: var(--brand-accent--cream);
+            border-left: 3px solid var(--accent--blue--300);
+            padding: 20px 24px;
+            border-radius: 4px;
+            margin-top: 24px;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text--dark--50);
+            margin-bottom: 12px;
+        }
+
+        .info-text {
+            color: var(--text--dark--40);
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-list li {
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+            color: var(--text--dark--40);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .info-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent--blue--300);
+            font-weight: 700;
+        }
+
+        .breakdown-section {
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: var(--white-smoke);
+            border-radius: 4px;
+            border: 1px solid var(--brand-accent--dusty-red-light);
+        }
+
+        .breakdown-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text--dark--50);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .breakdown-text {
+            color: var(--text--dark--40);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .calculator-card {
+                padding: 24px 20px;
+            }
+
+            .input-wrapper {
+                flex-direction: column;
+            }
+
+            .calculate-btn {
+                width: 100%;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-value {
+                font-size: 28px;
+            }
+
+            .timing-test-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .timing-icon {
+                font-size: 28px;
+            }
+        }
+
+        .important-note {
+            background: var(--white-smoke);
+            border-left: 3px solid var(--brand-accent--dusty-red-light);
+            padding: 16px 20px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+        }
+
+        .important-note-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text--dark--50);
+            margin-bottom: 6px;
+        }
+
+        .important-note-text {
+            color: var(--text--dark--40);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .timing-test-section {
+            background: linear-gradient(135deg, var(--accent-blue--50) 0%, var(--accent-blue--100) 100%);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            border: 1px solid var(--accent-blue--200);
+        }
+
+        .timing-test-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .timing-icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .timing-test-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text--dark--50);
+            margin-bottom: 4px;
+        }
+
+        .timing-test-subtitle {
+            font-size: 13px;
+            color: var(--text--dark--40);
+            line-height: 1.4;
+        }
+
+        .timing-instructions {
+            background: var(--white);
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--action-primary-blue);
+        }
+
+        .timing-instructions p {
+            font-size: 13px;
+            color: var(--text--dark--40);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .timing-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .timing-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text--dark--50);
+        }
+
+        .timing-input-group input[type="number"] {
+            padding: 12px 16px;
+            font-size: 14px;
+            border: 1px solid var(--light-grey);
+            border-radius: 4px;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            background: var(--white);
+            color: var(--text--dark--50);
+        }
+
+        .calculate-average-btn {
+            padding: 12px 24px;
+            background: var(--action-primary-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        }
+
+        .calculate-average-btn:hover {
+            background: var(--accent--blue--300);
+        }
+
+        .average-result {
+            margin-top: 16px;
+            background: var(--white);
+            padding: 16px;
+            border-radius: 4px;
+            border-left: 3px solid var(--success-green);
+        }
+
+        .average-text {
+            font-size: 15px;
+            color: var(--text--dark--50);
+        }
+
+        .average-text strong {
+            color: var(--text--dark--50);
+        }
+
+        #calculatedAverage {
+            color: var(--action-primary-blue);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .slider-section {
+            margin-bottom: 24px;
+            padding: 20px;
+            background: var(--card-light-grey);
+            border-radius: 4px;
+            border: 1px solid var(--ui--underline--light-grey);
+        }
+
+        .slider-container {
+            margin-top: 12px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--ui--underline--light-grey);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--action-primary-blue);
+            cursor: pointer;
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--action-primary-blue);
+            cursor: pointer;
+            border: 3px solid var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-value-display {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--action-primary-blue);
+        }
+
+        #sliderValue {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .go-live-section {
+            margin-top: 24px;
+            padding: 24px;
+            background: linear-gradient(135deg, var(--accent--blue--300) 0%, var(--accent-blue--200) 100%);
+            border-radius: 4px;
+            color: var(--white);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .go-live-date-label {
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0.85;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .go-live-date {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .go-live-description {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .book-now-btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: var(--white);
+            color: var(--action-primary-blue);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        }
+
+        .book-now-btn:hover {
+            background: var(--accent-blue--50);
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="data:image/jpeg;base64,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aEgCNBoSAI0GhIAjQaEgCNBoSAI0GhIAjQaEgCNBoSAI0GhIAjQaEgCNBoSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z" alt="Street Group Logo" class="logo">
+    </div>
+    <div class="container">
+        <div class="header">
+            <div class="page-label">
+                <div class="page-label-line"></div>
+                <span class="label-text">Setup Time Estimator</span>
+            </div>
+            <h1>Accounting Onboarding Calculator</h1>
+            <p class="subtitle">Plan your Street setup with confidence. Calculate how much time you'll need for accounting and managed property onboarding.</p>
+        </div>
+
+        <div class="calculator-card">
+            <div class="important-note">
+                <div class="important-note-title">Important Note</div>
+                <div class="important-note-text">This time estimate does not include the time needed to add tenancies into Street — we recommend loading your tenancies before starting the accounting onboarding phase.</div>
+            </div>
+
+            <div class="timing-test-section" id="timingTestSection">
+                <div class="timing-test-header">
+                    <div class="timing-icon">⏱️</div>
+                    <div>
+                        <div class="timing-test-title">Get a More Accurate Estimate</div>
+                        <div class="timing-test-subtitle">Test yourself in the demo account for a personalized calculation</div>
+                    </div>
+                </div>
+                
+                <div class="timing-instructions">
+                    <p><strong>How it works:</strong> Add 4 properties into your demo account and time how long it takes. This will give you a personalized average time per property.</p>
+                </div>
+
+                <div class="timing-input-group">
+                    <label class="timing-label">How long did it take to add 4 properties? (in minutes)</label>
+                    <input type="number" id="testTime" placeholder="e.g., 85" min="1" step="1">
+                    <button class="calculate-average-btn" onclick="calculateAverage()">Calculate My Average</button>
+                </div>
+
+                <div id="averageResult" class="average-result" style="display: none;">
+                    <div class="average-text">
+                        <strong>Your average:</strong> <span id="calculatedAverage">-</span> minutes per property
+                    </div>
+                </div>
+            </div>
+
+            <div class="slider-section">
+                <label class="input-label">Time per Property (minutes)</label>
+                <p class="input-help-text">Based on our experience, most agents average <strong>20 minutes per property</strong>. Use the slider to adjust based on your own testing or preference.</p>
+                <div class="slider-container">
+                    <input type="range" id="timeSlider" min="5" max="60" value="20" step="1">
+                    <div class="slider-value-display">
+                        <span id="sliderValue">20</span> minutes per property
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <label class="input-label" for="propertyCount">Number of Managed/Rent Collection Tenancies</label>
+                <div class="input-wrapper">
+                    <input type="number" id="propertyCount" placeholder="e.g., 100" min="1" value="">
+                    <button class="calculate-btn" onclick="calculateTime()">Calculate</button>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <label class="input-label" for="frontEndGoLive">Street Front-End Go-Live Date (Optional)</label>
+                <p class="input-help-text">If you've already set a go-live date with your onboarding team, enter it here. We'll schedule accounting go-live for 2 weeks after.</p>
+                <input type="date" id="frontEndGoLive" placeholder="Select date">
+            </div>
+
+            <div class="info-section" id="generalGuidance">
+                <div class="info-title">General Guidance</div>
+                <ul class="info-list">
+                    <li><strong>Smaller agents (around 100 properties):</strong> typically finish in 1-2 weeks</li>
+                    <li><strong>Larger agents (500–1,000+ properties):</strong> often need several weeks</li>
+                    <li><strong>On average:</strong> we recommend allowing for a full rent cycle (around a month) to complete setup alongside your daily work</li>
+                </ul>
+                <p class="info-text" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--ui--underline--light-grey);">
+                    <strong>This approach helps you set up Street gradually without disruption, ready to go live at the start of your next rent cycle.</strong>
+                </p>
+            </div>
+
+            <div id="results" class="results-section">
+                <div class="breakdown-section">
+                    <div class="breakdown-title">
+                        <span>📊</span>
+                        <span>Your Breakdown</span>
+                    </div>
+                    <div class="breakdown-text" id="breakdownText">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div class="go-live-section">
+                    <div class="go-live-date-label">Suggested Go-Live Date</div>
+                    <div class="go-live-date" id="goLiveDate">-</div>
+                    <div class="go-live-description" id="goLiveDescription">Based on starting today and completing all onboarding tasks</div>
+                    <a href="https://info.street.co.uk/meetings/amy-dawber/street-accounting-opening-balances-suspense-account-setup" target="_blank" class="book-now-btn">Book Your Opening Balance Call</a>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card tertiary">
+                        <div class="result-label">Recommended Timeline</div>
+                        <div class="result-value" id="recommendedDays">-</div>
+                        <div class="result-description">days including training + workload</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Total Time Required</div>
+                        <div class="result-value" id="totalHours">-</div>
+                        <div class="result-description">hours of focused setup work</div>
+                    </div>
+                    <div class="result-card secondary">
+                        <div class="result-label">Working Days</div>
+                        <div class="result-value" id="workingDays">-</div>
+                        <div class="result-description">based on 8-hour workdays</div>
+                    </div>
+                    <div class="result-card quaternary">
+                        <div class="result-label">Demo Account Training</div>
+                        <div class="result-value">14</div>
+                        <div class="result-description">days accounting training in demo account</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        // Function to calculate average time per property from test
+        function calculateAverage() {
+            const testTime = parseFloat(document.getElementById('testTime').value);
+            
+            if (!testTime || testTime < 1) {
+                alert('Please enter how long it took to add 4 properties');
+                return;
+            }
+
+            const average = Math.round(testTime / 4);
+            
+            // Display the result
+            document.getElementById('calculatedAverage').textContent = average;
+            document.getElementById('averageResult').style.display = 'block';
+            
+            // Update the slider to match
+            document.getElementById('timeSlider').value = average;
+            document.getElementById('sliderValue').textContent = average;
+            
+            // Scroll to slider
+            document.getElementById('timeSlider').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Update slider value display in real-time
+        document.getElementById('timeSlider').addEventListener('input', function() {
+            document.getElementById('sliderValue').textContent = this.value;
+        });
+
+        function calculateTime() {
+            const propertyCount = parseInt(document.getElementById('propertyCount').value);
+            
+            if (!propertyCount || propertyCount < 1) {
+                alert('Please enter a valid number of properties');
+                return;
+            }
+
+            // Get minutes per property from slider
+            const MINUTES_PER_PROPERTY = parseInt(document.getElementById('timeSlider').value);
+            const HOURS_PER_DAY = 8;
+            const TRAINING_DAYS = 14; // Demo account training
+            const WEEKS_AFTER_FRONTEND = 2; // Weeks after front-end go-live
+            
+            // Calculations
+            const totalMinutes = propertyCount * MINUTES_PER_PROPERTY;
+            const totalHours = Math.round(totalMinutes / 60);
+            const workingDays = Math.round(totalHours / HOURS_PER_DAY);
+            const bufferDays = 7; // Extra week for daily workload
+            const recommendedDays = workingDays + TRAINING_DAYS + bufferDays;
+
+            // Calculate standard suggested go-live date (business days only)
+            const standardGoLiveDate = addBusinessDays(new Date(), recommendedDays);
+            
+            // Check if user has entered a front-end go-live date
+            const frontEndInput = document.getElementById('frontEndGoLive').value;
+            let finalGoLiveDate = standardGoLiveDate;
+            let usingFrontEndDate = false;
+            
+            if (frontEndInput) {
+                const frontEndDate = new Date(frontEndInput + 'T00:00:00');
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Only use front-end date if it's in the future
+                if (frontEndDate >= today) {
+                    // Add 2 weeks (14 calendar days, but we'll convert to business days)
+                    const accountingGoLive = addBusinessDays(frontEndDate, 10); // ~2 weeks of business days
+                    
+                    // Use whichever date is later: standard calculation or 2 weeks after front-end
+                    if (accountingGoLive > standardGoLiveDate) {
+                        finalGoLiveDate = accountingGoLive;
+                        usingFrontEndDate = true;
+                    }
+                }
+            }
+            
+            const formattedDate = formatDate(finalGoLiveDate);
+
+            // Update results
+            document.getElementById('totalHours').textContent = totalHours;
+            document.getElementById('workingDays').textContent = workingDays;
+            document.getElementById('recommendedDays').textContent = recommendedDays;
+            document.getElementById('goLiveDate').textContent = formattedDate;
+
+            // Update go-live description based on which date we're using
+            const goLiveDesc = document.getElementById('goLiveDescription');
+            if (usingFrontEndDate) {
+                goLiveDesc.textContent = 'Based on 2 weeks after your Street front-end go-live date';
+            } else {
+                goLiveDesc.textContent = 'Based on starting today and completing all onboarding tasks';
+            }
+
+            // Create breakdown text
+            let sizeCategory = '';
+            let timelineAdvice = '';
+            
+            if (propertyCount <= 150) {
+                sizeCategory = 'small to medium';
+                timelineAdvice = 'most agents in your situation complete setup in 1-2 weeks (plus 14 days training)';
+            } else if (propertyCount <= 500) {
+                sizeCategory = 'medium to large';
+                timelineAdvice = 'most agents in your situation complete setup in 2-4 weeks (plus 14 days training)';
+            } else {
+                sizeCategory = 'large';
+                timelineAdvice = 'most agents in your situation complete setup in several weeks to a month (plus 14 days training)';
+            }
+
+            let breakdownText = `
+                <strong>${propertyCount} managed/rent collection tenancies</strong> × <strong>${MINUTES_PER_PROPERTY} minutes</strong> each = <strong>${totalHours} hours total</strong> (around <strong>${workingDays} full working days</strong> based on an 8-hour day).
+                <br><br>
+                As a <strong>${sizeCategory} agent</strong>, you'll also need to complete <strong>14 days of training in your demo account</strong> before starting the onboarding phase. Combined with keeping up with your day-to-day workload, we suggest allowing <strong>${recommendedDays} working days total</strong>.
+                <br><br>
+                Based on your property count, ${timelineAdvice}. We recommend allowing for a full rent cycle to ensure a smooth setup.
+            `;
+            
+            if (usingFrontEndDate) {
+                breakdownText += `<br><br><strong>Note:</strong> Since you've scheduled your Street front-end go-live for ${formatDate(new Date(frontEndInput + 'T00:00:00'))}, we recommend going live with accounting <strong>2 weeks later</strong> to allow proper time for setup and training.`;
+            }
+
+            document.getElementById('breakdownText').innerHTML = breakdownText;
+
+            // Hide General Guidance section
+            document.getElementById('generalGuidance').style.display = 'none';
+
+            // Show results
+            document.getElementById('results').classList.add('visible');
+            
+            // Smooth scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Function to add business days (excluding weekends)
+        function addBusinessDays(date, days) {
+            let currentDate = new Date(date);
+            let addedDays = 0;
+            
+            while (addedDays < days) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                // Skip weekends (0 = Sunday, 6 = Saturday)
+                if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+                    addedDays++;
+                }
+            }
+            
+            return currentDate;
+        }
+
+        // Function to format date as "Day, DD Month YYYY"
+        function formatDate(date) {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                          'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const dayName = days[date.getDay()];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            
+            // Add ordinal suffix (st, nd, rd, th)
+            const suffix = (day) => {
+                if (day > 3 && day < 21) return 'th';
+                switch (day % 10) {
+                    case 1: return 'st';
+                    case 2: return 'nd';
+                    case 3: return 'rd';
+                    default: return 'th';
+                }
+            };
+            
+            return `${dayName}, ${day}${suffix(day)} ${month} ${year}`;
+        }
+
+        // Allow Enter key to trigger calculation
+        document.getElementById('propertyCount').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculateTime();
+            }
+        });
+
+        // Allow Enter key in test time input
+        document.getElementById('testTime').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculateAverage();
+            }
+        });
+    </script>
+</body>
+</html>
